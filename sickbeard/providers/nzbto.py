@@ -49,7 +49,6 @@ class NZBto(generic.NZBProvider):
         self.searchString = ''
 
         self.session = requests.Session()
-        self.session.get("http://nzb.to")
         self.session.headers["Referer"] = "http://nzb.to/login"
         self.session.headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:20.0) Gecko/20100101 Firefox/20.0"
 
@@ -79,6 +78,10 @@ class NZBto(generic.NZBProvider):
         x = self.session.get(tmp_url)
         tro = BeautifulSoup(x.text)
         pw = tro.find('span', attrs={"style": "color:#ff0000"}).strong.next.next
+        #try:
+        #    pw = tro.find('span', attrs={"style": "color:#ff0000"}).strong.next.next
+        #except AttributeError:
+        #    pw = None
         if not pw or pw.strip() == "-":
             title = tmp_title
         else:
@@ -194,7 +197,6 @@ class NNZBtoCache(tvcache.TVCache):
         self.minTime = 40
 
         self.session = requests.Session()
-        self.session.get("http://nzb.to")
         self.session.headers["Referer"] = "http://nzb.to/login"
         self.session.headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:20.0) Gecko/20100101 Firefox/20.0"
 
